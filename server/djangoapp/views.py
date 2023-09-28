@@ -43,9 +43,6 @@ def login_request(request):
             return redirect('djangoapp/index.html', context)
     else:
         return render(request, 'djangoapp/index.html', context)
-    print(user.is_authenticated)
-
-
 
 # Create a `logout_request` view to handle sign out request
 def logout_request(request):

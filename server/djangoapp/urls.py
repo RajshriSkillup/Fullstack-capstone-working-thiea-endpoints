@@ -26,7 +26,7 @@ urlpatterns = [
     # path for logout
     path(route='logout/', view=views.logout_request, name='logout'),
 
-    path(route='https://florianbachm-3000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get', view=views.get_dealerships, name='index'),
+    path(route='', view=views.get_dealerships, name='index'),
 
     # path for dealer reviews view
 

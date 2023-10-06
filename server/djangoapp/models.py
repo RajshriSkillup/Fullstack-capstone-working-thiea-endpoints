@@ -81,14 +81,13 @@ class DealerReview:
         self.id = id
 
     def __str__(self):
-        return "Dealsership: " + self.dealership \
-        "Name: " + self.name \
-        "Purchase: " + self.purchase \
-        "Review: " +self.reveiw \
-        "Purchase date: " + self.purchase_date \
-        "Car Make: " + self.car_make \
-        "Car Model: " + self.car_model \
-        "Car Year: " + self.car_year \
-        "Sentiment: " + self.sentiment \
-        "id: " + self.id 
-
+        return "Dealership: " + self.dealership + \
+               "Name: " + self.name + \
+               "Purchase: " + self.purchase + \
+               "Review: " + self.review + \
+               "Purchase date: " + str(self.purchase_date) + \
+               "Car Make: " + self.car_make + \
+               "Car Model: " + self.car_model + \
+               "Car Year: " + str(self.car_year) + \
+               "Sentiment: " + self.sentiment + \
+               "id: " + str(self.id)

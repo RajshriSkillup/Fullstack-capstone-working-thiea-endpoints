@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import CarDealer
-from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf
+from .models import CarDealer, DealerReview
+from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, get_dealer_by_id_from_cf
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -104,4 +104,11 @@ def get_dealer_details(request, dealer_id):
 
          return render(request, 'djangoapp/dealer_details.html', context)
 
-
+def add_review(request, dealer_id):
+    review = {}
+    review["time"] = datetime.utcnow().isoformat()
+    review["dealership"] = 11
+    review["review"] = "This is a great car dealer"
+    json_payload["review"] = review
+    response = post_request(url, json_payload, dealer_id=dealer_id)
+    return HttpResponse(response)

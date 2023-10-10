@@ -114,6 +114,11 @@ def get_dealer_by_id_from_cf(url, dealer_id):
 
 # - Call get_request() with specified arguments
 # - Parse JSON results into a DealerView object list
+def get_dealer_by_state_cf(url, state):
+    # Construct the full URL with the dealer_id parameter
+    full_url = f"{url}/{state}"
+    dealer = get_request(full_url)
+    return dealer
 
 
 

@@ -40,6 +40,7 @@ def get_request(url, **kwargs):
 
 # Create a `post_request` to make HTTP POST requests
 def post_request(url, json_payload, **kwargs):
+    url =  "https://florianbachm-5000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
     response = requests.post(url, params=kwargs, json=json_payload)
     return response
 
@@ -106,9 +107,10 @@ def get_dealer_reviews_from_cf(url, **kwargs):
 
 # def get_dealer_by_id_from_cf(url, dealerId):
 def get_dealer_by_id_from_cf(url, dealer_id):
-    dealer_id = params.get("dealer_id")
-    dealer = get_request(url, dealer_id)
-    return(dealer)
+    # Construct the full URL with the dealer_id parameter
+    full_url = f"{url}/{dealer_id}"
+    dealer = get_request(full_url)
+    return dealer
 
 # - Call get_request() with specified arguments
 # - Parse JSON results into a DealerView object list
@@ -123,7 +125,7 @@ def analyze_review_sentiments(dealerreview):
     authenticator = IAMAuthenticator(api_key)
     natural_language_understanding = NaturalLanguageUnderstandingV1(version='2021-08-01',authenticator=authenticator)
     natural_language_understanding.set_service_url(url)
-    response = natural_language_understanding.analyze( text=text+"hello hello hello",features=Features(sentiment=SentimentOptions(targets=[text+"hello hello hello"]))).get_result()
+    response = natural_language_understanding.analyze( text=dealerreview+"hello hello hello",features=Features(sentiment=SentimentOptions(targets=[dealerreview+"hello hello hello"]))).get_result()
     label=json.dumps(response, indent=2)
     label = response['sentiment']['document']['label']
     

@@ -40,7 +40,7 @@ def get_request(url, **kwargs):
 
 # Create a `post_request` to make HTTP POST requests
 def post_request(url, json_payload, **kwargs):
-    url =  "https://florianbachm-5000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+    url =  "https://florianbachm-5000.theiadocker-2-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
     response = requests.post(url, params=kwargs, json=json_payload)
     return response
 
@@ -106,9 +106,9 @@ def get_dealer_reviews_from_cf(url, **kwargs):
 
 
 # def get_dealer_by_id_from_cf(url, dealerId):
-def get_dealer_by_id_from_cf(url, dealer_id):
+def get_dealer_by_id_from_cf(url, id):
     # Construct the full URL with the dealer_id parameter
-    full_url = f"{url}/{dealer_id}"
+    full_url = f"{url}/{id}"
     dealer = get_request(full_url)
     return dealer
 

@@ -12,7 +12,7 @@
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Car Dealserhip</a>
+                    <a class="navbar-brand">Reviews for {{dealer.full_name}}</a>
                  </div>
                 <div class="nav navbar-nav navbar-light">
                     <li>
@@ -22,8 +22,9 @@
                 </div>
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
-                    <a href="{% url 'djangoapp:add_review' dealer.id %}">Add review </a>
+                    
                     <li>
+                        <a href="{% url 'djangoapp:add_review' dealer.id %}">Add review </a>
                         <a class="btn btn-link" href="#">{{ user.username }}</a>
                         <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
                     </li>

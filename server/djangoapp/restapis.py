@@ -108,7 +108,7 @@ def get_dealer_reviews_from_cf(url, **kwargs):
 # def get_dealer_by_id_from_cf(url, dealerId):
 def get_dealer_by_id_from_cf(url, id):
     # Construct the full URL with the dealer_id parameter
-    full_url = f"{url}/{id}"
+    full_url = f"{url}?id={id}"
     dealer = get_request(full_url)
     return dealer
 

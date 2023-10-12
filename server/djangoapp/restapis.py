@@ -40,7 +40,7 @@ def get_request(url, **kwargs):
 
 # Create a `post_request` to make HTTP POST requests
 def post_request(url, json_payload, **kwargs):
-    url =  "https://florianbachm-5000.theiadocker-3-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+    url =  "https://florianbachm-5000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
     response = requests.post(url, params=kwargs, json=json_payload)
     return response
 

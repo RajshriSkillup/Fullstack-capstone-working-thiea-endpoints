@@ -14,7 +14,7 @@ class CarMake(models.Model):
 class CarModel(models.Model):
     carmake = models.ForeignKey(CarMake, null=True, on_delete=models.CASCADE)
     name = models.CharField(null=False, max_length=100)
-    dealer_id = models.IntegerField()
+    car_id = models.IntegerField(default=1,primary_key=True)
 
     # Choices for the car_type field as tuples
     TYPE_CHOICES = [

@@ -49,8 +49,16 @@
     <!-- Add reviews as cards -->
     {% for review in reviews %}
     <div class="card">
-        <img class="card-img-left" src="{{MEDIA_URL}}/emoji/positive.png"/>
+        <img class="card-img-left" src={% if review.sentiment == "positive":
+        src={{MEDIA_URL}}/emoji/positive.png
+        elif review.sentiment == "neutral":
+        src={{MEDIA_URL}}/emoji/neutral.png
+        elif review.sentiment == "negative":
+        src={{MEDIA_URL}}/emoji/negative.png
+        endif%}/>
+        
         <div class="card-body">
+            <label class="card-title">Sentiment: {{review.sentiment}} </label>
             <label class="card-title"> {{review.car_model}} </label>
             <label class="card-title"> {{review.car_make}} </label>
             <label class="card-title"> {{review.purchase_date}} </label>

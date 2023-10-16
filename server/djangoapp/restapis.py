@@ -12,6 +12,7 @@ from ibm_watson.natural_language_understanding_v1 import Features, SentimentOpti
 # Create a `get_request` to make HTTP GET requests
 def get_request(url, **kwargs):
     
+    response = None
     # If argument contain API KEY
     api_key = kwargs.get("api_key")
     print("GET from {} ".format(url))
@@ -40,7 +41,7 @@ def get_request(url, **kwargs):
 
 # Create a `post_request` to make HTTP POST requests
 def post_request(url, json_payload, **kwargs):
-    url =  "https://florianbachm-5000.theiadocker-2-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+    url =  "https://florianbachm-5000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
     response = requests.post(url, params=kwargs, json=json_payload)
     return response
 
@@ -77,25 +78,38 @@ def get_dealer_reviews_from_cf(url, **kwargs):
         json_result = get_request(url, id=id)
     else:
         json_result = get_request(url)
-    print(json_result,"96")
+    print(json_result, "96")
     if json_result:
-        reviews = json_result["data"]["docs"]
+        if isinstance(json_result, list):  # Check if json_result is a list
+            reviews = json_result
+        else:
+            reviews = json_result["data"]["docs"]
+
+        # Check if 'reviews' is a list of one dictionary
+        if isinstance(reviews, list) and len(reviews) == 1 and isinstance(reviews[0], dict):
+            reviews = reviews[0]
+
         for dealer_review in reviews:
-            review_obj = DealerReview(dealership=dealer_review["dealership"],
-                                   name=dealer_review["name"],
-                                   purchase=dealer_review["purchase"],
-                                   review=dealer_review["review"])
-            if "id" in dealer_review:
-                review_obj.id = dealer_review["id"]
-            if "purchase_date" in dealer_review:
-                review_obj.purchase_date = dealer_review["purchase_date"]
-            if "car_make" in dealer_review:
-                review_obj.car_make = dealer_review["car_make"]
-            if "car_model" in dealer_review:
-                review_obj.car_model = dealer_review["car_model"]
-            if "car_year" in dealer_review:
-                review_obj.car_year = dealer_review["car_year"]
-            
+            print("dealer_review--------------------", dealer_review)  # Print dealer_review
+            if isinstance(dealer_review, str):  # Check if dealer_review is a string
+                try:
+                    dealer_review = json.loads(dealer_review)
+                except json.JSONDecodeError:
+                    continue  # Skip this iteration if the JSON decoding fails
+
+            review_obj = DealerReview(
+                dealership=dealer_review.get("dealership"),
+                name=dealer_review.get("name"),
+                purchase=dealer_review.get("purchase"),
+                review=dealer_review.get("review"),
+                purchase_date=dealer_review.get("purchase_date"),
+                car_make=dealer_review.get("car_make"),
+                car_model=dealer_review.get("car_model"),
+                car_year=dealer_review.get("car_year"),
+                id=dealer_review.get("id"),
+                sentiment='negative'
+            )
+
             sentiment = analyze_review_sentiments(review_obj.review)
             print(sentiment)
             review_obj.sentiment = sentiment

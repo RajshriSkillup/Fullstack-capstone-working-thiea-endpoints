@@ -107,7 +107,7 @@ def get_dealer_reviews_from_cf(url, **kwargs):
                 car_model=dealer_review.get("car_model"),
                 car_year=dealer_review.get("car_year"),
                 id=dealer_review.get("id"),
-                sentiment='negative'
+                sentiment=''
             )
 
             sentiment = analyze_review_sentiments(review_obj.review)

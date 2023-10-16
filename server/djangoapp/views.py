@@ -108,7 +108,7 @@ def get_dealer_details(request, id):
 
 def add_review(request, id):
     context = {}
-    url = "https://florianbachm-3000.theiadocker-0-labs-prod-theiak8s-0-tor01.proxy.cognitiveclass.ai/dealerships/get"
+    url = "https://florianbachm-3000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
     dealer = get_dealer_by_id_from_cf(url, id=id)
     context["dealer"] = dealer
     if request.method == 'GET':
@@ -142,5 +142,22 @@ def add_review(request, id):
             new_payload = {}
             new_payload["review"] = payload
             review_post_url = "https://florianbachm-5000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
-            post_request(review_post_url, new_payload, id = id)
+
+            review = {
+                "id":id,
+                "time":datetime.utcnow().isoformat(),
+                "name":request.user.username,  # Assuming you want to use the authenticated user's name
+                "dealership" :id,                
+                "review": request.POST["content"],  # Extract the review from the POST request
+                "purchase": True,  # Extract purchase info from POST
+                "purchase_date":request.POST["purchasedate"],  # Extract purchase date from POST
+                "car_make": car.carmake.name,  # Extract car make from POST
+                "car_model": car.name,  # Extract car model from POST
+                "car_year": int(car.year.strftime("%Y")),  # Extract car year from POST
+            }
+            review=json.dumps(review,default=str)
+            new_payload1 = {}
+            new_payload1["review"] = review
+            print("\nREVIEW:",review)
+            post_request(review_post_url, review, id = id)
         return redirect("djangoapp:dealer_details", id = id)

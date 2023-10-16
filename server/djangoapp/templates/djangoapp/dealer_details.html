@@ -47,19 +47,27 @@
         </nav>
 
     <!-- Add reviews as cards -->
-    {% for review in reviews %}
-<div class="card" style="width: 18rem;">
-    <img class="card-img-left" width="30" src="{% if review.sentiment == 'positive' %}{{ MEDIA_URL }}/emoji/positive.png{% elif review.sentiment == 'neutral' %}{{ MEDIA_URL }}/emoji/neutral.png{% elif review.sentiment == 'negative' %}{{ MEDIA_URL }}/emoji/negative.png{% endif %}" />
-    
-    <div class="card-body">
-        <label class="card-title">Sentiment: {{ review.sentiment }} </label>
-        <label class="card-title"> {{ review.car_model }} </label>
-        <label class="card-title"> {{ review.car_make }} </label> <br>
-        <label class="card-title">{{ review.purchase_date}}</label> <br>
-        <label class="card-text"> {{ review.review }}</label>
+    <div class="container">
+        {% for review in reviews %}
+        {% if forloop.counter0|divisibleby:3 %}
+        <div class="row">
+        {% endif %}
+        <div class="col-sm-4" margin=10px>
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-left" width="30" src="{% if review.sentiment == 'positive' %}{{ MEDIA_URL }}/emoji/positive.png{% elif review.sentiment == 'neutral' %}{{ MEDIA_URL }}/emoji/neutral.png{% elif review.sentiment == 'negative' %}{{ MEDIA_URL }}/emoji/negative.png{% endif %}" />
+                <div class="card-body">
+                    <label class="card-title"> {{ review.car_model }} </label>
+                    <label class="card-title"> {{ review.car_make }} </label> <br>
+                    <label class="card-title">{{ review.purchase_date}}</label> <br>
+                    <label class="card-text"> {{ review.review }}</label>
+                </div>
+            </div>
+        </div>
+        {% if forloop.counter|divisibleby:3 or forloop.last %}
+        </div>
+        {% endif %}
+        {% endfor %}
     </div>
-</div>
-{% endfor %}
 
     </body>
 

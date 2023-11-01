@@ -41,7 +41,7 @@ def get_request(url, **kwargs):
 
 # Create a `post_request` to make HTTP POST requests
 def post_request(url, json_payload, **kwargs):
-    url =  "https://florianbachm-5000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+    url =  "https://ritikaj-5000.theiadocker-3-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
     response = requests.post(url, params=kwargs, json=json_payload)
     return response
 
@@ -106,16 +106,17 @@ def get_dealer_reviews_from_cf(url, **kwargs):
                 car_make=dealer_review.get("car_make"),
                 car_model=dealer_review.get("car_model"),
                 car_year=dealer_review.get("car_year"),
-                id=dealer_review.get("id"),
-                sentiment=''
+                sentiment='',
+                id=dealer_review.get("id")
             )
 
-            sentiment = analyze_review_sentiments(review_obj.review)
-            print(sentiment)
-            review_obj.sentiment = sentiment
+            # sentiment = analyze_review_sentiments(review_obj.review)
+            # print(sentiment)
+            # review_obj.sentiment = sentiment
             results.append(review_obj)
 
     return results
+
     
 
 
@@ -144,20 +145,13 @@ def get_dealer_by_state_cf(url, state):
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 # - Call get_request() with specified arguments
-def analyze_review_sentiments(dealerreview):
-    url = "https://api.eu-de.natural-language-understanding.watson.cloud.ibm.com/instances/fdb18e32-6ca5-4407-9cda-cb06efdc9c96"
-    api_key = "hewfPaUlEbqicLf0D5Sr6jHlpfz3oE13CDWAgqQxRqyY"
+def analyze_review_sentiments(text):
+    url = "https://api.au-syd.natural-language-understanding.watson.cloud.ibm.com/instances/c8d40d5d-1975-489a-a4ff-9f9137e6c93f"
+    api_key = "BfwwrU8C4L9v_adfnfSWUNPdCF01vDt5pTDf6ywpb2ry"
     authenticator = IAMAuthenticator(api_key)
     natural_language_understanding = NaturalLanguageUnderstandingV1(version='2021-08-01',authenticator=authenticator)
     natural_language_understanding.set_service_url(url)
-    response = natural_language_understanding.analyze( text=dealerreview+"hello hello hello",features=Features(sentiment=SentimentOptions(targets=[dealerreview+"hello hello hello"]))).get_result()
+    response = natural_language_understanding.analyze( text=text+"hello hello hello",features=Features(sentiment=SentimentOptions(targets=[text+"hello hello hello"]))).get_result()
     label=json.dumps(response, indent=2)
-    label = response['sentiment']['document']['label']
-    
-    
+    label = response['sentiment']['document']['label'] 
     return(label)
-
-
-
-
-
